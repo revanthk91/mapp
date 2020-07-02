@@ -1,19 +1,41 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import { DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
+import Main from './src/Main.js'
 
-export default function App() {
+//redux
+import {createStore} from 'redux'
+import { Provider as StoreProvider} from 'react-redux'
+
+
+import allReducers from './src/reducers'
+
+const myStore = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+
+//theme
+const theme = {
+  ...DefaultTheme,
+  roundness: 10,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#900000',
+    accent: '#181818',
+  },
+};
+
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+  	<StoreProvider store= {myStore}>
+	    <PaperProvider theme={theme}>
+	      <Main/>
+	    </PaperProvider>
+	 </StoreProvider>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+
+
+
+
+export default App
